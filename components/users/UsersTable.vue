@@ -20,7 +20,9 @@
         <tbody class="table-body">
           <tr v-for="user in users" :key="user.id">
             <td class="px-6 py-4 text-left align-top">
-              {{ user.name }}
+              <span :title="user.name">
+                {{ truncateText(user.name) }}
+              </span>
             </td>
             <td class="px-6 py-4 text-left align-top">
               <div
@@ -28,14 +30,18 @@
                 :key="task"
                 class="flex justify-between text-gray-900 mb-2"
               >
-                {{ getTaskById(task).title }}
+                <span :title="getTaskById(task).title">
+                  {{ truncateText(getTaskById(task).title) }}
+                </span>
                 <TaskStatusLabel :status="getTaskById(task).complete" />
               </div>
             </td>
             <td class="px-6 py-4 align-top text-right text-xs">
-              <button class="btn-primary" @click="editUser(user)">Edit</button>
+              <button class="btn-primary mb-2" @click="editUser(user)">
+                Edit
+              </button>
               <button
-                class="btn-danger ml-2 mt-2 md:mt-0"
+                class="btn-danger ml-2"
                 @click="deleteUserAndUnassignTask(user)"
               >
                 Delete
@@ -111,6 +117,14 @@ export default {
     closeEditModal() {
       this.currentUser = {}
       this.showEditModal = false
+    },
+
+    truncateText(text, length = 20, suffix = '...') {
+      if (text.length > length) {
+        return text.substring(0, length) + suffix
+      } else {
+        return text
+      }
     },
   },
 }

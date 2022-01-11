@@ -10,6 +10,7 @@
               :rules="{
                 required: true,
                 min: 3,
+                max: 64,
                 is_unique: titleWasChanged ? [getTasksTitle] : false,
               }"
             >
